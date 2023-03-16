@@ -22,7 +22,8 @@ enhanced as (
         materialization,
         tags,
         meta,
-        alias
+        alias,
+        description
     from base
 
 )
