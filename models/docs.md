@@ -395,7 +395,7 @@ Alias of the node.
 
 {% enddocs %}
 
-{% docs compiled_sql %}
+{% docs compiled_code %}
 
 Compiled SQL of the test
 

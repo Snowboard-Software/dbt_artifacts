@@ -17,7 +17,7 @@ enhanced as (
         package_name,
         test_path,
         tags,
-        compiled_sql
+        compiled_code
     from base
 
 )

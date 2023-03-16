@@ -31,7 +31,7 @@
                 '{{ test.package_name }}', {# package_name #}
                 '{{ test.original_file_path | replace('\\', '\\\\') }}', {# test_path #}
                 '{{ tojson(test.tags) }}', {# tags #}
-                '{{ test.compiledSql }}' {# compiledSql #}
+                $${{ test.compiled_code }}$$ {# compiled_code #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
