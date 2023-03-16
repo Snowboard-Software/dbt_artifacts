@@ -400,3 +400,9 @@ Alias of the node.
 Compiled SQL of the test
 
 {% enddocs %}
+
+{% docs raw_code %}
+
+Raw SQL of the test
+
+{% enddocs %}

@@ -17,7 +17,8 @@ enhanced as (
         package_name,
         test_path,
         tags,
-        compiled_code
+        compiled_code,
+        raw_code
     from base
 
 )
