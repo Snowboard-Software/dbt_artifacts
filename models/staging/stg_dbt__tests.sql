@@ -16,7 +16,8 @@ enhanced as (
         depends_on_nodes,
         package_name,
         test_path,
-        tags
+        tags,
+        compiled_sql
     from base
 
 )

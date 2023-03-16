@@ -18,7 +18,8 @@
             {{ adapter.dispatch('parse_json', 'dbt_artifacts')(adapter.dispatch('column_identifier', 'dbt_artifacts')(5)) }},
             {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(6) }},
             {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(7) }},
-            {{ adapter.dispatch('parse_json', 'dbt_artifacts')(adapter.dispatch('column_identifier', 'dbt_artifacts')(8)) }}
+            {{ adapter.dispatch('parse_json', 'dbt_artifacts')(adapter.dispatch('column_identifier', 'dbt_artifacts')(8)) }},
+            {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(9) }},
         from values
         {% for test in tests -%}
             (
@@ -29,7 +30,8 @@
                 '{{ tojson(test.depends_on.nodes) }}', {# depends_on_nodes #}
                 '{{ test.package_name }}', {# package_name #}
                 '{{ test.original_file_path | replace('\\', '\\\\') }}', {# test_path #}
-                '{{ tojson(test.tags) }}' {# tags #}
+                '{{ tojson(test.tags) }}', {# tags #}
+                '{{ test.compiledSql }}' {# compiledSql #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
