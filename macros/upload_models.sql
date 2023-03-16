@@ -43,7 +43,7 @@
                 '{{ tojson(model.tags) }}', {# tags #}
                 '{{ tojson(model.config.meta) }}', {# meta #}
                 '{{ model.alias }}', {# alias #}
-                '{{ model.description }}' {# description #}
+                $${{ model.description }}$$ {# description #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
