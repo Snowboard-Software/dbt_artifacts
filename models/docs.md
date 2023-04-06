@@ -406,3 +406,9 @@ Compiled SQL of the test
 Raw SQL of the test
 
 {% enddocs %}
+
+{% docs message %}
+
+Result report, based on information returned from the database
+
+{% enddocs %}
