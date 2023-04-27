@@ -119,3 +119,5 @@ tox -e lint -- models/path/to/directory
 
 Enforced rules are defined within `tox.ini`. To view the full list of available rules and their configuration, see
 the [SQLFluff documentation](https://docs.sqlfluff.com/en/stable/rules.html).
+
+- Hasnain
