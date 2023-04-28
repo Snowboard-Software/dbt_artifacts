@@ -14,5 +14,6 @@ select
     cast(null as {{ type_array() }}) as tags,
     cast(null as {{ type_string() }}) as compiled_code,
     cast(null as {{ type_string() }}) as raw_code
+    cast(null as {{ type_string() }}) as status
 from dummy_cte
 where 1 = 0

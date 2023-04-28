@@ -26,3 +26,5 @@ models:
     description: '{{ doc("compiled_code") }}'
   - name: raw_code
     description: '{{ doc("raw_code") }}'
+  - name: status
+    description: '{{ doc("status") }}'
