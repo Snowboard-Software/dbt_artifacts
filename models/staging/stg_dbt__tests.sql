@@ -18,7 +18,8 @@ enhanced as (
         test_path,
         tags,
         compiled_code,
-        raw_code
+        raw_code,
+        meta
     from base
 
 )
