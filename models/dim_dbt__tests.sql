@@ -19,7 +19,8 @@ tests as (
         tags,
         compiled_code,
         raw_code,
-        meta
+        meta,
+        deferred
     from base
 
 )

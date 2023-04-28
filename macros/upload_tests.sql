@@ -22,6 +22,7 @@
             {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(9) }},
             {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(10) }}
             {{ adapter.dispatch('parse_json', 'dbt_artifacts')(adapter.dispatch('column_identifier', 'dbt_artifacts')(11)) }},
+            {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(12) }}
         from values
         {% for test in tests -%}
             (
@@ -36,6 +37,7 @@
                 $${{ test.compiled_code }}$$, {# compiled_code #}
                 $${{ test.raw_code }}$$ {# raw_code #}
                 '{{ tojson(test.meta) }}', {# meta #}
+                $${{ test.deferred }}$$ {# deferred #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
