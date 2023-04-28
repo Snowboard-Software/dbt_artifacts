@@ -19,7 +19,7 @@ tests as (
         tags,
         compiled_code,
         raw_code,
-        status
+        meta
     from base
 
 )

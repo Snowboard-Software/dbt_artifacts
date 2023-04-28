@@ -35,7 +35,7 @@
                 '{{ tojson(test.tags) }}', {# tags #}
                 $${{ test.compiled_code }}$$, {# compiled_code #}
                 $${{ test.raw_code }}$$ {# raw_code #}
-                $${{ test.status }}$$ {# status #}
+                '{{ tojson(test.meta) }}', {# meta #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
