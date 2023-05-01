@@ -19,7 +19,7 @@ enhanced as (
         tags,
         compiled_code,
         raw_code,
-        adapter_response
+        database
     from base
 
 )
