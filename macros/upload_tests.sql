@@ -35,7 +35,7 @@
                 '{{ tojson(test.tags) }}', {# tags #}
                 $${{ test.compiled_code }}$$, {# compiled_code #}
                 $${{ test.raw_code }}$$ {# raw_code #}
-                $${{ test.response_message }}$$ {# response_message #}
+                $${{ test.adapter_response }}$$ {# adapter_response #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}

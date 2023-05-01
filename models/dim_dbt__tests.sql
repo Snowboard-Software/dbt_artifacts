@@ -19,7 +19,7 @@ tests as (
         tags,
         compiled_code,
         raw_code,
-        response_message
+        adapter_response
     from base
 
 )
