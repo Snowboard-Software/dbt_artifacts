@@ -28,5 +28,3 @@ models:
     description: '{{ doc("raw_code") }}'
   - name: meta
     description: '{{ doc("meta") }}'
-  - name: deferred
-    description: '{{ doc("deferred") }}'

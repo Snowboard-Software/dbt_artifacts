@@ -18,9 +18,7 @@ enhanced as (
         test_path,
         tags,
         compiled_code,
-        raw_code,
-        meta,
-        deferred
+        raw_code
     from base
 
 )
