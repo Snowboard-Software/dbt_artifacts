@@ -18,8 +18,7 @@ enhanced as (
         test_path,
         tags,
         compiled_code,
-        raw_code,
-        message
+        raw_code
     from base
 
 )
