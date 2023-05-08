@@ -15,7 +15,7 @@
 
 {% macro snowflake__insert_into_metadata_table(database_name, schema_name, table_name, content) -%}
     {% set table_columns_query %}
-        DESCRIBE TABLE "{{database_name}}"."{{schema_name}}"."{{table_name}}"
+        DESCRIBE TABLE {{database_name}}.{{schema_name}}.{{table_name}}
     {% endset %}
 
     {% do log(content) %}
