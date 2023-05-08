@@ -21,8 +21,12 @@
         and table_schema = '{{schema_name}}'
         and table_name = '{{table_name}}'
     {% endset %}
+
+    {% do log(content) %}
     
     {% set table_columns = run_query(table_columns_query) %}
+
+    {% do log(table_columns) %}
     
     {% set content_columns = content.split('\n')[0].split(',') %}
     {% set content_columns_list = [] %}
@@ -30,6 +34,8 @@
         {% set column_trimmed = column.strip() %}
         {% do content_columns_list.append(column_trimmed) %}
     {% endfor %}
+
+    {% do log(content_columns_list) %}
     
     {% set content_data_types = content.split('\n')[1].split(',') %}
     {% set content_data_types_list = [] %}
@@ -37,6 +43,11 @@
         {% set data_type_trimmed = data_type.strip() %}
         {% do content_data_types_list.append(data_type_trimmed) %}
     {% endfor %}
+
+    {% do log(content_data_types_list) %}
+
+    {% do log(len(table_columns)) %}
+    {% do log(len(content_columns_list)) %}
     
     {% if len(table_columns) == len(content_columns_list) %}
         {% set column_check = True %}
