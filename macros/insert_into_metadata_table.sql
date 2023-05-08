@@ -46,10 +46,10 @@
 
     {% do log(content_data_types_list) %}
 
-    {% do log(len(table_columns)) %}
-    {% do log(len(content_columns_list)) %}
+    {% do log(table_columns|length) %}
+    {% do log(content_columns_list|length) %}
     
-    {% if len(table_columns) == len(content_columns_list) %}
+    {% if table_columns|length == content_columns_list|length %}
         {% set column_check = True %}
         {% for index, column in enumerate(table_columns) %}
             {% if column.column_name != content_columns_list[index] or column.data_type != content_data_types_list[index] %}
