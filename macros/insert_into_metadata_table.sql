@@ -65,13 +65,13 @@
             {% else %}
                 {% set error_message = "The column names and/or data types in the content passed to the macro do not match the schema of the existing table." %}
                 {% do log(error_message) %}
-                {% do raise(error_message) %}
+                {% do exceptions.warn(error_message) %}
             {% endif %}
         {% endfor %}
     {% else %}
         {% set error_message = "The number of columns in the content passed to the macro does not match the schema of the existing table." %}
         {% do log(error_message) %}
-        {% do raise(error_message) %}
+        {% do exceptions.warn(error_message) %}
     {% endif %}
 {%- endmacro %}
 
