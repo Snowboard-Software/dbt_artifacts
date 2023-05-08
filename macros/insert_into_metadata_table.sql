@@ -52,21 +52,20 @@
         {% for index, column in enumerate(table_columns) %}
             {% if column.column_name != content_columns_list[index] or column.data_type != content_data_types_list[index] %}
                 {% set column_check = False %}
-                {% break %}
+            {% endif %}
+        {% else %}
+            {% if column_check %}
+                {% set insert_into_table_query %}
+                    insert into {{database_name}}.{{ schema_name }}.{{ table_name }}
+                    {{ content }}
+                {% endset %}
+                {% do run_query(insert_into_table_query) %}
+            {% else %}
+                {% set error_message = "The column names and/or data types in the content passed to the macro do not match the schema of the existing table." %}
+                {% do log(error_message) %}
+                {% do raise(error_message) %}
             {% endif %}
         {% endfor %}
-        
-        {% if column_check %}
-            {% set insert_into_table_query %}
-                insert into {{database_name}}.{{ schema_name }}.{{ table_name }}
-                {{ content }}
-            {% endset %}
-            {% do run_query(insert_into_table_query) %}
-        {% else %}
-            {% set error_message = "The column names and/or data types in the content passed to the macro do not match the schema of the existing table." %}
-            {% do log(error_message) %}
-            {% do raise(error_message) %}
-        {% endif %}
     {% else %}
         {% set error_message = "The number of columns in the content passed to the macro does not match the schema of the existing table." %}
         {% do log(error_message) %}
