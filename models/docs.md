@@ -412,3 +412,15 @@ Raw SQL of the test
 Result report, based on information returned from the database
 
 {% enddocs %}
+
+{% docs adapter_response %}
+
+Response provided by the adapter as JSON.
+
+{% enddocs %}
+
+{% docs all_results %}
+
+All results as a JSON blob
+
+{% enddocs %}

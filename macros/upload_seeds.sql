@@ -21,7 +21,8 @@
             {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(8) }},
             {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(9) }},
             {{ adapter.dispatch('parse_json', 'dbt_artifacts')(adapter.dispatch('column_identifier', 'dbt_artifacts')(10)) }},
-            {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(11) }}
+            {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(11) }},
+            {{ adapter.dispatch('parse_json', 'dbt_artifacts')(adapter.dispatch('column_identifier', 'dbt_artifacts')(12)) }}
         from values
         {% for seed in seeds -%}
             (
@@ -34,8 +35,9 @@
                 '{{ seed.package_name }}', {# package_name #}
                 '{{ seed.original_file_path | replace('\\', '\\\\') }}', {# path #}
                 '{{ seed.checksum.checksum }}', {# checksum #}
-                '{{ tojson(seed.config.meta) }}', {# meta #}
-                '{{ seed.alias }}' {# alias #}
+                '{{ tojson(seed.config.meta) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}', {# meta #}
+                '{{ seed.alias }}', {# alias #}
+                '{{ tojson(seed) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}' {# all_results #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -60,8 +62,9 @@
                     '{{ seed.package_name }}', {# package_name #}
                     '{{ seed.original_file_path | replace('\\', '\\\\') }}', {# path #}
                     '{{ seed.checksum.checksum }}', {# checksum #}
-                    parse_json('{{ tojson(seed.config.meta) }}'), {# meta #}
-                    '{{ seed.alias }}' {# alias #}
+                    parse_json('''{{ tojson(seed.config.meta) }}'''), {# meta #}
+                    '{{ seed.alias }}', {# alias #}
+                    parse_json('{{ tojson(seed) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}', wide_number_mode=>'round') {# all_results #}
                 )
                 {%- if not loop.last %},{%- endif %}
             {%- endfor %}

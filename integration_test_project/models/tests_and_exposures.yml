@@ -10,11 +10,12 @@ models:
           - unique
 
 exposures:
-  - name: "ceo's imaginary dashboard"
+  - name: ceo_imaginary_dashboard
     type: dashboard
     maturity: high
     description: "ceo's favourite dashboard"
     url: https://bi.tool/dashboards/1
+    tags: ["ceo", "data"]
 
     depends_on:
       - ref('non_incremental')
@@ -23,11 +24,12 @@ exposures:
       name: Claire from Data
       email: data@jaffleshop.com
 
-  - name: "CIO dashboard"
+  - name: cio_dashboard
     type: dashboard
     maturity: high
     description: '{{ doc("clickstream") }}'
     url: https://bi.tool/dashboards/1
+    tags: ["cio", "it"]
 
     depends_on:
       - ref('incremental')

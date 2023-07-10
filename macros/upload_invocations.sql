@@ -1,4 +1,24 @@
 {% macro upload_invocations() -%}
+
+    {# Need to remove keys with results that can't be handled properly #}
+    {# warn_error_options - returns a python object in 1.5 #}
+    {% if 'warn_error_options' in invocation_args_dict %}
+        {% if invocation_args_dict.warn_error_options is not string %}
+            {% if invocation_args_dict.warn_error_options.include %}
+                {% set include_options = invocation_args_dict.warn_error_options.include %}
+            {% else %}
+                {% set include_options = '' %}
+            {% endif %}
+            {% if invocation_args_dict.warn_error_options.exclude %}
+                {% set exclude_options = invocation_args_dict.warn_error_options.exclude %}
+            {% else %}
+                {% set exclude_options = '' %}
+            {% endif %}
+            {% set warn_error_options = {'include': include_options, 'exclude': exclude_options} %}
+            {%- do invocation_args_dict.update({'warn_error_options': warn_error_options}) %}
+        {% endif %}
+    {% endif %}
+
     {{ return(adapter.dispatch('get_invocations_dml_sql', 'dbt_artifacts')()) }}
 {%- endmacro %}
 
@@ -46,7 +66,7 @@
         {% if var('env_vars', none) %}
             {% set env_vars_dict = {} %}
             {% for env_variable in var('env_vars') %}
-                {% do env_vars_dict.update({env_variable: env_var(env_variable)}) %}
+                {% do env_vars_dict.update({env_variable: (env_var(env_variable, '') | replace("'", "''"))}) %}
             {% endfor %}
             '{{ tojson(env_vars_dict) }}', {# env_vars #}
         {% else %}
@@ -56,7 +76,7 @@
         {% if var('dbt_vars', none) %}
             {% set dbt_vars_dict = {} %}
             {% for dbt_var in var('dbt_vars') %}
-                {% do dbt_vars_dict.update({dbt_var: var(dbt_var)}) %}
+                {% do dbt_vars_dict.update({dbt_var: (var(dbt_var, '') | replace("'", "''"))}) %}
             {% endfor %}
             '{{ tojson(dbt_vars_dict) }}', {# dbt_vars #}
         {% else %}
@@ -64,7 +84,12 @@
         {% endif %}
 
         '{{ tojson(invocation_args_dict) | replace('\\', '\\\\') }}', {# invocation_args #}
-        '{{ tojson(dbt_metadata_envs) }}' {# dbt_custom_envs #}
+
+        {% set metadata_env = {} %}
+        {% for key, value in dbt_metadata_envs.items() %}
+            {% do metadata_env.update({key: (value | replace("'", "''"))}) %}
+        {% endfor %}
+        '{{ tojson(metadata_env) | replace('\\', '\\\\') }}' {# dbt_custom_envs #}
 
     )
     {% endset %}
@@ -95,9 +120,9 @@
         {% if var('env_vars', none) %}
             {% set env_vars_dict = {} %}
             {% for env_variable in var('env_vars') %}
-                {% do env_vars_dict.update({env_variable: env_var(env_variable)}) %}
+                {% do env_vars_dict.update({env_variable: (env_var(env_variable, ''))}) %}
             {% endfor %}
-            parse_json('{{ tojson(env_vars_dict) }}'), {# env_vars #}
+            parse_json('''{{ tojson(env_vars_dict) }}'''), {# env_vars #}
         {% else %}
             null, {# env_vars #}
         {% endif %}
@@ -105,21 +130,29 @@
         {% if var('dbt_vars', none) %}
             {% set dbt_vars_dict = {} %}
             {% for dbt_var in var('dbt_vars') %}
-                {% do dbt_vars_dict.update({dbt_var: var(dbt_var)}) %}
+                {% do dbt_vars_dict.update({dbt_var: (var(dbt_var, ''))}) %}
             {% endfor %}
-            parse_json('{{ tojson(dbt_vars_dict) }}'), {# dbt_vars #}
+            parse_json('''{{ tojson(dbt_vars_dict) }}'''), {# dbt_vars #}
         {% else %}
             null, {# dbt_vars #}
         {% endif %}
 
         {% if invocation_args_dict.vars %}
-            {# BigQuery does not handle the yaml-string from "--vars" well, when passed to "parse_json". Workaround is to parse the string, and then "tojson" will properly format the dict as a json-object. #}
-            {% set parsed_inv_args_vars = fromyaml(invocation_args_dict.vars) %}
-            {% do invocation_args_dict.update({'vars': parsed_inv_args_vars}) %}
+            {# vars - different format for pre v1.5 (yaml vs list) #}
+            {% if invocation_args_dict.vars is string %}
+                {# BigQuery does not handle the yaml-string from "--vars" well, when passed to "parse_json". Workaround is to parse the string, and then "tojson" will properly format the dict as a json-object. #}
+                {% set parsed_inv_args_vars = fromyaml(invocation_args_dict.vars) %}
+                {% do invocation_args_dict.update({'vars': parsed_inv_args_vars}) %}
+            {% endif %}
         {% endif %}
 
-        parse_json('{{ tojson(invocation_args_dict) }}'), {# invocation_args #}
-        parse_json('{{ tojson(dbt_metadata_envs) }}') {# dbt_custom_envs #}
+        safe.parse_json('''{{ tojson(invocation_args_dict) }}'''), {# invocation_args #}
+
+        {% set metadata_env = {} %}
+        {% for key, value in dbt_metadata_envs.items() %}
+            {% do metadata_env.update({key: value}) %}
+        {% endfor %}
+        parse_json('''{{ tojson(metadata_env) | replace('\\', '\\\\') }}''') {# dbt_custom_envs #}
 
         )
     {% endset %}
