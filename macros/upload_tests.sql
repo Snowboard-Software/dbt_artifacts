@@ -31,7 +31,7 @@
                 '{{ tojson(test.tags) }}', {# tags #}
                 '{{ test.compiled_code }}', {# compiled_code #}
                 '{{ test.raw_code }}', {# raw_code #}
-                '{{ tojson(test) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}' {# all_fields #}
+                '{{ tojson(test) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}', {# all_fields #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -57,7 +57,7 @@
                     {{ tojson(test.tags) }}, {# tags #}
                     '{{ test.compiled_code }}', {# compiled_code #}
                     '{{ test.raw_code }}', {# raw_code #}
-                    parse_json('{{ tojson(test) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}') {# all_fields #}
+                    parse_json('{{ tojson(test) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}'), {# all_fields #}
                 )
                 {%- if not loop.last %},{%- endif %}
             {%- endfor %}
