@@ -24,3 +24,5 @@ models:
     description: '{{ doc("test_path") }}'
   - name: compiled_code
     description: '{{ doc("compiled_code") }}'
+  - name: raw_code
+    description: '{{ doc("raw_code") }}'
