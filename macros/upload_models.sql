@@ -40,7 +40,7 @@
                 '{{ tojson(model.tags) }}', {# tags #}
                 '{{ tojson(model.config.meta) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}', {# meta #}
                 '{{ model.alias }}', {# alias #}
-                "{{ model.description }}" {# description #}
+                {{ '$$' ~ model.description ~ '$$' }} {# description #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -71,7 +71,7 @@
                     {{ tojson(model.tags) }}, {# tags #}
                     parse_json('''{{ tojson(model.config.meta) }}'''), {# meta #}
                     '{{ model.alias }}', {# alias #}
-                    "{{ model.description }}" {# description #}
+                    {{ '$$' ~ model.description ~ '$$' }} {# description #}
                 )
                 {%- if not loop.last %},{%- endif %}
             {%- endfor %}
