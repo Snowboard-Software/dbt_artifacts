@@ -17,7 +17,7 @@ tests as (
         package_name,
         test_path,
         tags,
-        raw_code,
+        compiled_code,
         all_results
     from base
 

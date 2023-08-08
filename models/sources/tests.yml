@@ -20,7 +20,7 @@ models:
         description: '{{ doc("test_path") }}'
       - name: tags
         description: '{{ doc("tags") }}'
-      - name: raw_code
-        description: '{{ doc("raw_code") }}'
+      - name: compiled_code
+        description: '{{ doc("compiled_code") }}'
       - name: all_results
         description: '{{ doc("all_results") }}'

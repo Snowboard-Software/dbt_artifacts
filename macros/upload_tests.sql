@@ -28,7 +28,7 @@
                 '{{ test.package_name }}', {# package_name #}
                 '{{ test.original_file_path | replace('\\', '\\\\') }}', {# test_path #}
                 '{{ tojson(test.tags) }}', {# tags #}
-                '{{ test.raw_code }}', {# raw_code #}
+                '{{ test.compiled_code }}', {# compiled_code #}
                 '{{ tojson(test) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}' {# all_fields #}
             )
             {%- if not loop.last %},{%- endif %}
@@ -53,7 +53,7 @@
                     '{{ test.package_name }}', {# package_name #}
                     '{{ test.original_file_path | replace('\\', '\\\\') }}', {# test_path #}
                     {{ tojson(test.tags) }}, {# tags #}
-                    '{{ test.raw_code }}', {# raw_code #}
+                    '{{ test.compiled_code }}', {# compiled_code #}
                     parse_json('{{ tojson(test) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}') {# all_fields #}
                 )
                 {%- if not loop.last %},{%- endif %}
