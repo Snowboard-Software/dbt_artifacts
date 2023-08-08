@@ -29,7 +29,7 @@
                 '{{ test.original_file_path | replace('\\', '\\\\') }}', {# test_path #}
                 '{{ tojson(test.tags) }}', {# tags #}
                 '{{ test.compiled_code }}', {# compiled_code #}
-                '{{ test.raw_code }}', {# raw_code #}
+                '{{ test.raw_code }}' {# raw_code #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -54,7 +54,7 @@
                     '{{ test.original_file_path | replace('\\', '\\\\') }}', {# test_path #}
                     {{ tojson(test.tags) }}, {# tags #}
                     '{{ test.compiled_code }}', {# compiled_code #}
-                    '{{ test.raw_code }}', {# raw_code #}
+                    '{{ test.raw_code }}' {# raw_code #}
                 )
                 {%- if not loop.last %},{%- endif %}
             {%- endfor %}
