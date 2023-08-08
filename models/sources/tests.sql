@@ -8,10 +8,10 @@ select
     cast(null as {{ type_string() }}) as node_id,
     cast(null as {{ type_timestamp() }}) as run_started_at,
     cast(null as {{ type_string() }}) as name,
-    cast(null as {{ type_array() }}) as depends_on_nodes,
+    cast(null as {{ type_json() }}) as depends_on_nodes,
     cast(null as {{ type_string() }}) as package_name,
     cast(null as {{ type_string() }}) as test_path,
-    cast(null as {{ type_array() }}) as tags,
+    cast(null as {{ type_json() }}) as tags,
     cast(null as {{ type_string() }}) as compiled_code,
     cast(null as {{ type_string() }}) as raw_code
 from dummy_cte
