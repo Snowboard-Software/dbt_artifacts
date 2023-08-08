@@ -27,7 +27,7 @@
                 '{{ test.package_name }}', {# package_name #}
                 '{{ test.original_file_path | replace('\\', '\\\\') }}', {# test_path #}
                 '{{ tojson(test.tags) }}', {# tags #}
-                '{{ test.compiled_code }}', {# compiled_code #}
+                '{{ test.compiled_code }}' {# compiled_code #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -51,7 +51,7 @@
                     '{{ test.package_name }}', {# package_name #}
                     '{{ test.original_file_path | replace('\\', '\\\\') }}', {# test_path #}
                     {{ tojson(test.tags) }}, {# tags #}
-                    '{{ test.compiled_code }}', {# compiled_code #}
+                    '{{ test.compiled_code }}' {# compiled_code #}
                 )
                 {%- if not loop.last %},{%- endif %}
             {%- endfor %}
