@@ -1,8 +1,4 @@
-{% macro upload_tests(graph) -%}
-    {% set tests = [] %}
-    {% for node in graph.nodes.values() | selectattr("resource_type", "equalto", "test") %}
-        {% do tests.append(node) %}
-    {% endfor %}
+{% macro upload_tests(tests) -%}
     {{ return(adapter.dispatch('get_tests_dml_sql', 'dbt_artifacts')(tests)) }}
 {%- endmacro %}
 
@@ -32,8 +28,8 @@
                 '{{ test.package_name }}', {# package_name #}
                 '{{ test.original_file_path | replace('\\', '\\\\') }}', {# test_path #}
                 '{{ tojson(test.tags) }}', {# tags #}
-                $${{ test.compiled_code }}$$, {# compiled_code #}
-                $${{ test.raw_code }}$$ {# raw_code #}
+                '{{ test.compiled_code }}', {# compiled_code #}
+                {{ '$$' ~ test.raw_code ~ '$$' }} {# raw_code #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -56,7 +52,9 @@
                     {{ tojson(test.depends_on.nodes) }}, {# depends_on_nodes #}
                     '{{ test.package_name }}', {# package_name #}
                     '{{ test.original_file_path | replace('\\', '\\\\') }}', {# test_path #}
-                    {{ tojson(test.tags) }} {# tags #}
+                    {{ tojson(test.tags) }}, {# tags #}
+                    '{{ test.compiled_code }}', {# compiled_code #}
+                    {{ '$$' ~ test.raw_code ~ '$$' }} {# raw_code #}
                 )
                 {%- if not loop.last %},{%- endif %}
             {%- endfor %}

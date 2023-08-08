@@ -1,8 +1,4 @@
-{% macro upload_models(graph) -%}
-    {% set models = [] %}
-    {% for node in graph.nodes.values() | selectattr("resource_type", "equalto", "model") %}
-        {% do models.append(node) %}
-    {% endfor %}
+{% macro upload_models(models) -%}
     {{ return(adapter.dispatch('get_models_dml_sql', 'dbt_artifacts')(models)) }}
 {%- endmacro %}
 
@@ -28,6 +24,7 @@
             {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(15) }}
         from values
         {% for model in models -%}
+                {% do model.pop('raw_code', None) %}
             (
                 '{{ invocation_id }}', {# command_invocation_id #}
                 '{{ model.unique_id }}', {# node_id #}
@@ -41,9 +38,9 @@
                 '{{ model.checksum.checksum }}', {# checksum #}
                 '{{ model.config.materialized }}', {# materialization #}
                 '{{ tojson(model.tags) }}', {# tags #}
-                '{{ tojson(model.config.meta) }}', {# meta #}
+                '{{ tojson(model.config.meta) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}', {# meta #}
                 '{{ model.alias }}', {# alias #}
-                $${{ model.description }}$$ {# description #}
+                {{ '$$' ~ model.description ~ '$$' }} {# description #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -58,6 +55,7 @@
     {% if models != [] %}
         {% set model_values %}
             {% for model in models -%}
+                {% do model.pop('raw_code', None) %}
                 (
                     '{{ invocation_id }}', {# command_invocation_id #}
                     '{{ model.unique_id }}', {# node_id #}
@@ -71,8 +69,9 @@
                     '{{ model.checksum.checksum }}', {# checksum #}
                     '{{ model.config.materialized }}', {# materialization #}
                     {{ tojson(model.tags) }}, {# tags #}
-                    parse_json('{{ tojson(model.config.meta) }}'), {# meta #}
-                    '{{ model.alias }}' {# alias #}
+                    parse_json('''{{ tojson(model.config.meta) }}'''), {# meta #}
+                    '{{ model.alias }}', {# alias #}
+                    {{ '$$' ~ model.description ~ '$$' }} {# description #}
                 )
                 {%- if not loop.last %},{%- endif %}
             {%- endfor %}
