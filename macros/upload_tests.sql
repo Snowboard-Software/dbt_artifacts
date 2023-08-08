@@ -15,8 +15,7 @@
             {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(6) }},
             {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(7) }},
             {{ adapter.dispatch('parse_json', 'dbt_artifacts')(adapter.dispatch('column_identifier', 'dbt_artifacts')(8)) }},
-            {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(9) }},
-            {{ adapter.dispatch('parse_json', 'dbt_artifacts')(adapter.dispatch('column_identifier', 'dbt_artifacts')(10)) }}
+            {{ adapter.dispatch('column_identifier', 'dbt_artifacts')(9) }}
         from values
         {% for test in tests -%}
             (
@@ -29,7 +28,6 @@
                 '{{ test.original_file_path | replace('\\', '\\\\') }}', {# test_path #}
                 '{{ tojson(test.tags) }}', {# tags #}
                 '{{ test.compiled_code }}', {# compiled_code #}
-                '{{ tojson(test) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}' {# all_fields #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -54,7 +52,6 @@
                     '{{ test.original_file_path | replace('\\', '\\\\') }}', {# test_path #}
                     {{ tojson(test.tags) }}, {# tags #}
                     '{{ test.compiled_code }}', {# compiled_code #}
-                    parse_json('{{ tojson(test) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}') {# all_fields #}
                 )
                 {%- if not loop.last %},{%- endif %}
             {%- endfor %}

@@ -24,5 +24,3 @@ models:
     description: '{{ doc("test_path") }}'
   - name: compiled_code
     description: '{{ doc("compiled_code") }}'
-  - name: all_results
-    description: '{{ doc("all_results") }}'
