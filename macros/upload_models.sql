@@ -38,7 +38,7 @@
                 '{{ model.checksum.checksum }}', {# checksum #}
                 '{{ model.config.materialized }}', {# materialization #}
                 '{{ tojson(model.tags) }}', {# tags #}
-                '{{ tojson(model.config.meta) | replace("\\", "\\\\") | replace("'","\\'") | replace('"', '\\"') }}', {# meta #}
+                '{{ tojson(model.config.meta) }}', {# meta #}
                 '{{ model.alias }}', {# alias #}
                 '{{ model.description }}' {# description #}
             )
@@ -69,7 +69,7 @@
                     '{{ model.checksum.checksum }}', {# checksum #}
                     '{{ model.config.materialized }}', {# materialization #}
                     {{ tojson(model.tags) }}, {# tags #}
-                    parse_json('''{{ tojson(model.config.meta) }}'''), {# meta #}
+                    {{ tojson(model.config.meta) }}, {# meta #}
                     '{{ model.alias }}', {# alias #}
                     '{{ model.description }}' {# description #}
                 )
