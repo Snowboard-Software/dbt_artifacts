@@ -22,5 +22,3 @@ models:
         description: '{{ doc("tags") }}'
       - name: raw_code
         description: '{{ doc("raw_code") }}'
-      - name: all_results
-        description: '{{ doc("all_results") }}'
